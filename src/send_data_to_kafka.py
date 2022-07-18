@@ -15,12 +15,15 @@ KAFKA_PRODUCER = KafkaProducer(
 )
 
 
-def send_data_to_kafka(header: list, data: list, key: str = uuid.uuid4().hex, timestamp=None):
+def send_data_to_kafka(header: list, data: list, key: str = None, timestamp=None):
     if timestamp:
         timestamp = int(timestamp) * 1000
 
     KAFKA_PRODUCER.send(
-        KAFKA_TOPIC_NAME, key=key, value=dict(zip(header, data)), timestamp_ms=timestamp
+        KAFKA_TOPIC_NAME,
+        key=uuid.uuid4().hex,
+        value=dict(zip(header, data)),
+        timestamp_ms=timestamp,
     )
 
 
