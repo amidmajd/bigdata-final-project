@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 
-from .routes import router
+from .api_routes import router
 
 
-BASE_URL = "/api/v1"
+BASE_URL = "/api"
 
 app = FastAPI(
     debug=True, title="Kafka API", openapi_url="/openapi.json", redoc_url=None, docs_url="/docs"
