@@ -31,5 +31,5 @@ for data in track(KAFKA_CONSUMER, description="Reading from Kafka into Redis..."
     REDIS_CONN.rpush(f"{key}/details", json.dumps(data_values))
     REDIS_CONN.expire(name=f"{key}/details", time=3600 * 7, nx=True)
 
-    REDIS_CONN.lpush("1000_latest_trips", json.dumps(data_values))  # earliest first
-    REDIS_CONN.ltrim(name="1000_latest_trips", start=0, end=999)  # only keep first 1000 records
+    REDIS_CONN.rpush("1000_latest_trips", json.dumps(data_values))  # earliest first
+    REDIS_CONN.ltrim(name="1000_latest_trips", start=-1000, end=-1)  # only keep first 1000 records
