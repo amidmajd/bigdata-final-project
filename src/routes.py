@@ -1,9 +1,5 @@
 import json
 from datetime import datetime, timedelta
-from threading import current_thread
-from time import sleep, time
-from typing import Literal
-from xmlrpc.client import DateTime
 
 import redis
 from fastapi import APIRouter
@@ -59,7 +55,9 @@ def get_trip_count_by_loc_and_period(
     elif base:
         filter_func = lambda trip: trip["Base"] == base
     else:
-        return get_trip_counts_by_period(start, end)
+        return get_trip_counts_by_period(
+            start, end
+        )  # if no args, then send total count within past 6 hours
 
     result = list(filter(filter_func, flatten_trips))
 
@@ -103,18 +101,11 @@ def get_required_redis_keys(start: str = None, end: str = None, details: bool = 
                 else:
                     keys.extend(f"{day}/{hour}" for hour in range(24))
     else:
-        current_day = current_datetime.day
-        current_hour = current_datetime.hour
-        if current_hour == 0:
-            past_day = current_day - 1
-            if past_day == 0:
-                past_day = 30
-            keys.append(f"{past_day}/23")
-
-        else:
-            keys = [f"{current_day}/{current_hour - 1}"]
-
-        keys.append(f"{current_day}/{current_hour}")
+        past_1h_datetime = current_datetime - timedelta(hours=1)
+        keys = [
+            f"{past_1h_datetime.day}/{past_1h_datetime.hour}",
+            f"{current_datetime.day}/{current_datetime.hour}",
+        ]
 
     if details:
         keys = [f"{key}/details" for key in keys]
