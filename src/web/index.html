@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!-- This site was created in Webflow. https://www.webflow.com --><!-- Last Published: Tue Jul 19 2022 09:10:17 GMT+0000 (Coordinated Universal Time) -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Online Taxi Interface</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="Webflow" name="generator" />
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
+      type="text/javascript"
+    ></script>
+    <script type="text/javascript">
+      WebFont.load({
+        google: {
+          families: [
+            "Montserrat:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic",
+            "Montserrat Alternates:300,regular,700",
+          ],
+        },
+      });
+    </script>
+  </head>
+  <body class="body">
+    <div class="wf-section">
+      <h1 class="heading"><strong>Live Online Taxi Data</strong></h1>
+    </div>
+    <div class="wf-section">
+      <div class="w-layout-grid grid" style="max-width: 80vw">
+        <div id="w-node-_58afaa5d-756c-9268-0021-6110a0960181-2324cecb" class="w-container">
+          <h3 id="w-node-_47e97b9d-e728-b326-53a3-0acd85bed283-2324cecb" class="heading-2">
+            Total Trips Last Hour
+          </h3>
+          <h4 class="heading-3" id="last_hour_data">...</h4>
+        </div>
+        <div id="w-node-_2361740c-7f0c-d117-39c4-195ab454c733-2324cecb" class="w-container">
+          <h3 id="w-node-_2361740c-7f0c-d117-39c4-195ab454c734-2324cecb" class="heading-2">
+            Total Trips Last 6 hours
+          </h3>
+          <h4 class="heading-3" id="last_6_hour_data">...</h4>
+        </div>
+        <div id="w-node-c1870098-89db-ac7e-bbef-6b8382ebd509-2324cecb" class="container-2 w-container">
+          <h3 id="w-node-c1870098-89db-ac7e-bbef-6b8382ebd50a-2324cecb" class="heading-2">
+            Past 6 Hours Trips in Location
+          </h3>
+          <div class="form">
+            <input
+              type="text"
+              class="w-input"
+              maxlength="256"
+              name="location"
+              data-name="Name"
+              placeholder="lat,lon"
+              id="loc-input"
+              style="width: 11rem"
+            />
+            <button class="submit-button w-button" id="loc_submit_btn">Submit</button>
+          </div>
+          <h4 class="heading-3" id="last_6_hour_by_loc_data">...</h4>
+        </div>
+        <div id="w-node-c778c48c-c2df-75aa-817f-28dad5966c02-2324cecb" class="container-2 w-container">
+          <h3 id="w-node-c778c48c-c2df-75aa-817f-28dad5966c03-2324cecb" class="heading-2">
+            Total Trips in Period (hour: 0-23)
+          </h3>
+          <div class="form">
+            <input
+              type="text"
+              class="w-input"
+              maxlength="256"
+              name="start"
+              data-name="start"
+              placeholder="start: 16/8"
+              id="start-input"
+              style="width: 6rem"
+            />
+            <input
+              type="text"
+              class="w-input"
+              maxlength="256"
+              name="end"
+              data-name="end"
+              placeholder="end: 17/8"
+              id="end-input"
+              style="width: 6rem"
+            />
+            <button class="submit-button w-button" id="period_submit_btn">Submit</button>
+          </div>
+          <h4 class="heading-3" id="total_trips_in_period_data">...</h4>
+        </div>
+      </div>
+    </div>
+    <div class="wf-section" style="margin-top: 35px">
+      <h2 class="heading-4" style="margin-bottom: 10px">Latest Trips</h2>
+      <div class="table100" style="max-width: 80vw; margin: 0 auto">
+        <table>
+          <thead>
+            <tr class="table100-head">
+              <th class="column1">UUID</th>
+              <th class="column2">Date</th>
+              <th class="column3">Latitude</th>
+              <th class="column4">Longitude</th>
+              <th class="column5">Base</th>
+            </tr>
+          </thead>
+          <tbody id="table_body"></tbody>
+        </table>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+    <script src="script.js" type="text/javascript"></script>
+  </body>
+</html>
