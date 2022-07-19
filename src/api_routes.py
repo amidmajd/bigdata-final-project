@@ -90,16 +90,19 @@ def get_required_redis_keys(start: str = None, end: str = None, details: bool = 
         start_day, start_hour = map(int, start.split("/"))
         end_day, end_hour = map(int, end.split("/"))
 
-        if start_day == end_day:
+        if start_day > end_day:
+            keys.extend(
+                _calc_keys_for_period(
+                    start_day=start_day, start_hour=start_hour, end_day=30, end_hour=23
+                )
+            )
+            keys.extend(
+                _calc_keys_for_period(start_day=1, start_hour=0, end_day=end_day, end_hour=end_hour)
+            )
+        elif start_day == end_day:
             keys.extend(f"{start_day}/{hour}" for hour in range(start_hour, end_hour + 1))
         else:
-            for day in range(start_day, end_day + 1):
-                if day == start_day:
-                    keys.extend(f"{day}/{hour}" for hour in range(start_hour, 24))
-                elif day == end_day + 1:
-                    keys.extend(f"{day}/{hour}" for hour in range(end_hour + 1))
-                else:
-                    keys.extend(f"{day}/{hour}" for hour in range(24))
+            keys.extend(_calc_keys_for_period(start_day, start_hour, end_day, end_hour))
     else:
         past_1h_datetime = current_datetime - timedelta(hours=1)
         keys = [
@@ -110,4 +113,16 @@ def get_required_redis_keys(start: str = None, end: str = None, details: bool = 
     if details:
         keys = [f"{key}/details" for key in keys]
 
+    return keys
+
+
+def _calc_keys_for_period(start_day: int, start_hour: int, end_day: int, end_hour: int):
+    keys = []
+    for day in range(start_day, end_day + 1):
+        if day == start_day:
+            keys.extend(f"{day}/{hour}" for hour in range(start_hour, 24))
+        elif day == end_day + 1:
+            keys.extend(f"{day}/{hour}" for hour in range(end_hour + 1))
+        else:
+            keys.extend(f"{day}/{hour}" for hour in range(24))
     return keys
